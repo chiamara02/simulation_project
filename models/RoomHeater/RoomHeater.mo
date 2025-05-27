@@ -1,8 +1,8 @@
 within RoomHeater;
 model RoomHeater
-  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor roomAir(C = 25000, T(start = 287.15))  annotation(
+  Modelica.Thermal.HeatTransfer.Components.HeatCapacitor roomAir(C = 60000, T(start = 287.15))  annotation(
     Placement(transformation(origin = {38, 20}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Thermal.HeatTransfer.Components.ThermalConductor wall(G = 5)  annotation(
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor wall(G = 6)  annotation(
     Placement(transformation(origin = {-12, 10}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow heater annotation(
     Placement(transformation(origin = {2, -30}, extent = {{-10, -10}, {10, 10}})));
