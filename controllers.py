@@ -17,7 +17,7 @@ class PIDController(BaseController):
         if max_output <= 0:
             raise ValueError("max_output must be a positive value")
 
-    def update(self, fmu_outputs, time, step_size):
+    def update(self, fmu_outputs, step_size):
         measurement = fmu_outputs[self.measurement_var]
         error = self.setpoint - measurement
         self.integral += error * step_size
@@ -28,3 +28,23 @@ class PIDController(BaseController):
         self.prev_error = error
 
         return {self.control_var: output}
+
+class OnOffController(BaseController):
+    def __init__(self, measurement_var, control_var, setpoint, threshold, on_value=1.0, off_value=0.0):
+        self.measurement_var = measurement_var
+        self.control_var = control_var
+        self.setpoint = setpoint
+        self.threshold = threshold
+        self.on_value = on_value
+        self.off_value = off_value
+
+    def update(self, fmu_outputs):
+        measurement = fmu_outputs[self.measurement_var]
+        if measurement < self.setpoint - self.threshold:
+            output = self.on_value  # Turn on
+        elif measurement > self.setpoint + self.threshold:
+            output = self.off_value  # Turn off
+        else:
+            output = self.off_value  # No change
+
+        return {self.control_var: output} if output is not None else {}
