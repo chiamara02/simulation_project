@@ -38,7 +38,9 @@ class OnOffController(BaseController):
         self.on_value = on_value
         self.off_value = off_value
 
-    def update(self, fmu_outputs):
+    def update(self, fmu_outputs, step_size):
+        if self.measurement_var not in fmu_outputs:
+            raise ValueError(f"Measurement variable '{self.measurement_var}' not found in FMU outputs.")
         measurement = fmu_outputs[self.measurement_var]
         if measurement < self.setpoint - self.threshold:
             output = self.on_value  # Turn on
@@ -48,3 +50,7 @@ class OnOffController(BaseController):
             output = self.off_value  # No change
 
         return {self.control_var: output} if output is not None else {}
+    
+
+
+ 

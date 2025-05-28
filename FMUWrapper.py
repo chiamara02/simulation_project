@@ -232,9 +232,6 @@ class FMUWrapper:
         if input_vars is None:
             input_vars = []
 
-        if controllers is None:
-            controllers = []
-
         if plot_vars is None:
             plot_vars = []
 
@@ -263,7 +260,7 @@ class FMUWrapper:
 
             # Run controllers and set controller-driven inputs
             if controller is not None:
-                control_updates = controller.update(fmu_outputs, time, self.step_size)
+                control_updates = controller.update(fmu_outputs, self.step_size)
                 for var_name, value in control_updates.items():
                     self.__set_variable(var_name, value, 'input')
 
