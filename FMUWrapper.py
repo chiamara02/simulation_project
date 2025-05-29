@@ -179,6 +179,7 @@ class FMUWrapper:
             times (List[float]): A list of time points for the simulation.
             plot_data (Dict[str, List[float]]): A dictionary containing the tracked variable values 
                                                 over time for each variable specified in plot_vars.
+            simulation_data (Dict[str, List[float]]): A dictionary containing all variable values over time.
         """
 
         if plot_vars is None:
@@ -190,6 +191,7 @@ class FMUWrapper:
         time = self.start_time
         times = []
         plot_data = {var: [] for var in plot_vars}
+        simulation_data = {var: [] for var in self.variables}
 
         initialized_variables = set()
         for input_var in input_vars:
@@ -209,10 +211,14 @@ class FMUWrapper:
                     var_value = input_var.get_value(time)
                     self.__set_variable(input_var.var_name, var_value, 'input')
 
+            # Gather FMU outputs needed for plotting
+            fmu_variables = {var: self.__get_variable(var) for var in self.variables}
             # Store current time and variable values
             times.append(time)
             for var in plot_vars:
                 plot_data[var].append(self.__get_variable(var))
+            for var in fmu_variables:
+                simulation_data[var].append(self.__get_variable(var))
 
             # Perform simulation step
             self.fmu.doStep(currentCommunicationPoint=time,
@@ -225,15 +231,28 @@ class FMUWrapper:
         self.fmu.terminate()
         self.fmu.freeInstance()
 
-        return times, plot_data
+        return times, plot_data, simulation_data
     
 
     def simulate_with_controller(self, input_vars=None, controller=None, plot_vars=None):
+        """
+        Run the FMU simulation with a controller, setting input variables and recording data for plotting.
+
+        Args:
+            input_vars (List[Dict]): A list of input variables with their values and time intervals.
+            controller (BaseController): An instance of a controller class that implements the update method.
+            plot_vars (List[str]): A list of variable names to track for plotting. Default is an empty list.
+
+        Returns:
+            times (List[float]): A list of time points for the simulation.
+            plot_data (Dict[str, List[float]]): A dictionary containing the tracked variable values
+            over time for each variable specified in plot_vars.
+            simulation_data (Dict[str, List[float]]): A dictionary containing all variable values over time.
+        """
+        
+
         if input_vars is None:
             input_vars = []
-
-        if controllers is None:
-            controllers = []
 
         if plot_vars is None:
             plot_vars = []
@@ -241,45 +260,52 @@ class FMUWrapper:
         time = self.start_time
         times = []
         plot_data = {var: [] for var in plot_vars}
+        simulation_data = {var: [] for var in self.variables}
 
-        # Prepare static inputs
-        initialized_inputs = set()
-        input_objects = []
+        initialized_variables = set()
         for input_var in input_vars:
             var = Input(input_var)
-            input_objects.append(var)
-            if var in initialized_inputs:
-                raise NameError(f"Duplicate input: {var.var_name}")
-            initialized_inputs.add(var)
+            # Check if the variable was already defined
+            if var in initialized_variables:
+                raise NameError(
+                    f"Variable '{var.var_name}' already has a value")
+            else:
+                initialized_variables.add(var)
 
+        # Simulation loop
         while time <= self.stop_time:
-            # Apply static inputs
-            for input_var in input_objects:
-                value = input_var.get_value(time)
-                self.__set_variable(input_var.var_name, value, 'input')
+            # Set values for the input variables
+            if initialized_variables:
+                for input_var in initialized_variables:
+                    var_value = input_var.get_value(time)
+                    self.__set_variable(input_var.var_name, var_value, 'input')
 
             # Gather FMU outputs needed for controller
-            fmu_outputs = {var: self.__get_variable(var) for var in plot_vars}
-
+            fmu_variables = {var: self.__get_variable(var) for var in self.variables}
             # Run controllers and set controller-driven inputs
             if controller is not None:
-                control_updates = controller.update(fmu_outputs, time, self.step_size)
+                control_updates = controller.update(fmu_variables, self.step_size)
                 for var_name, value in control_updates.items():
                     self.__set_variable(var_name, value, 'input')
 
-            # Record data
+            # Store current time and variable values
             times.append(time)
             for var in plot_vars:
                 plot_data[var].append(self.__get_variable(var))
+            for var in fmu_variables:
+                simulation_data[var].append(self.__get_variable(var))
 
-            # Step the FMU
-            self.fmu.doStep(currentCommunicationPoint=time, communicationStepSize=self.step_size)
+            # Perform simulation step
+            self.fmu.doStep(currentCommunicationPoint=time, 
+                            communicationStepSize=self.step_size)
             time += self.step_size
 
+        initialized_variables.clear()
+        # Terminate simulation
         self.fmu.terminate()
         self.fmu.freeInstance()
 
-        return times, plot_data
+        return times, plot_data, simulation_data
 
     
 
@@ -292,8 +318,7 @@ class FMUWrapper:
             times (List[float]): A list of time points from the simulation.
             plot_data (Dict[str, List[float]]): A dictionary of variable values over time to plot.
         """
-        df = pd.DataFrame(plot_data, index=times)
-        df.to_csv('simulations/simulation_results.csv', index_label='Time')
+        
         plt.figure()
         for var, values in plot_data.items():
             plt.plot(times, values, label=var)
@@ -302,7 +327,18 @@ class FMUWrapper:
         plt.legend()
         plt.show()
 
+    def save_results_to_csv(self, simulation_data: Dict[str, List[float]], filename: str):
+        """
+        Save the simulation results to a CSV file.
 
+        Args:
+            times (List[float]): A list of time points from the simulation.
+            plot_data (Dict[str, List[float]]): A dictionary of variable values over time to save.
+            filename (str): The name of the file to save the results to.
+        """
+        
+        df = pd.DataFrame(simulation_data)
+        df.to_csv(filename, index=False)
 
     def print_input_variables(self):
         """

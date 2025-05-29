@@ -1,12 +1,12 @@
 class BaseController:
-    def update(self, fmu_outputs: dict[str, float], time: float, step_size: float) -> dict[str, float]:
+    def update(self, control_inputs: dict[str, float], time: float, step_size: float) -> dict[str, float]:
         pass
 
 
 class PIDController(BaseController):
-    def __init__(self, measurement_var, control_var, Kp, Ki, Kd, setpoint, max_output):
-        self.measurement_var = measurement_var
-        self.control_var = control_var
+    def __init__(self, control_input, control_output, Kp, Ki, Kd, setpoint, max_output):
+        self.control_input = control_input
+        self.control_output = control_output
         self.Kp = Kp
         self.Ki = Ki
         self.Kd = Kd
@@ -17,8 +17,8 @@ class PIDController(BaseController):
         if max_output <= 0:
             raise ValueError("max_output must be a positive value")
 
-    def update(self, fmu_outputs, step_size):
-        measurement = fmu_outputs[self.measurement_var]
+    def update(self, model_variables, step_size):
+        measurement = model_variables[self.control_input]
         error = self.setpoint - measurement
         self.integral += error * step_size
         derivative = (error - self.prev_error) / step_size
@@ -27,19 +27,21 @@ class PIDController(BaseController):
             output = self.max_output
         self.prev_error = error
 
-        return {self.control_var: output}
+        return {self.control_output: output}
 
 class OnOffController(BaseController):
-    def __init__(self, measurement_var, control_var, setpoint, threshold, on_value=1.0, off_value=0.0):
-        self.measurement_var = measurement_var
-        self.control_var = control_var
+    def __init__(self, control_input, control_output, setpoint, threshold, on_value=1.0, off_value=0.0):
+        self.control_input = control_input
+        self.control_output = control_output
         self.setpoint = setpoint
         self.threshold = threshold
         self.on_value = on_value
         self.off_value = off_value
 
-    def update(self, fmu_outputs):
-        measurement = fmu_outputs[self.measurement_var]
+    def update(self, model_variables, step_size):
+        if self.control_input not in model_variables:
+            raise ValueError(f"Control input variable '{self.control_input}' not found in model variables.")
+        measurement =model_variables[self.control_input]
         if measurement < self.setpoint - self.threshold:
             output = self.on_value  # Turn on
         elif measurement > self.setpoint + self.threshold:
@@ -47,4 +49,8 @@ class OnOffController(BaseController):
         else:
             output = self.off_value  # No change
 
-        return {self.control_var: output} if output is not None else {}
+        return {self.control_output: output} if output is not None else {}
+    
+
+
+ 
