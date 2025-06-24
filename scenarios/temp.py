@@ -26,7 +26,7 @@ def simulate_temperature(day, month, start_time, end_time, seed=None):
     return data
 
 
-def random_walk_interpolate(df, col="temp", freq="10min", noise_scale=0.1):
+def random_walk_interpolate(df, col="temp", freq="10min", noise_scale=0.1): # TODO repeat sampling to obtain exactly n values in range
     result = []
     times = []
 

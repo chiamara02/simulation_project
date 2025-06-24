@@ -1,4 +1,5 @@
 import random
+from scenarios.temp import *
 
 def generate_inputs(duration, step_size, seed=0):
     random.seed(seed)  # ensures reproducibility
@@ -6,21 +7,31 @@ def generate_inputs(duration, step_size, seed=0):
     input_vars = []
 
     # outsideTemp fluctuates
+    day = random.randint(1, 28)
+    month = random.randint(1, 12)
+    start_time = random.randint(0, 24)
+    end_time = (start_time + 4) % 24  # ensures end_time is within the same day
+    temperatures = simulate_temperature(day, month, start_time, end_time, seed=seed)
+    final_temperatures = random_walk_interpolate(temperatures)
+    
     values = []
-    t = 0
-    while t < duration:
-        next_t = t + step_size * random.randint(10, 50)
+    rows = list(final_temperatures.itertuples())  # convert to list so we can look ahead
+
+    for i, row in enumerate(rows):
+        start_time = row.Index
+        end_time = rows[i + 1].Index if i + 1 < len(rows) else row.Index  # end_time is next row's index
         values.append({
-            "value": random.uniform(5, 25),
-            "start_time": t,
-            "end_time": min(next_t, duration)
+            "value": row.temp,
+            "start_time": start_time,
+            "end_time": end_time
         })
-        t = next_t
-    input_vars.append({
+
+    input_vars = [{
         "variable": "outsideTemp",
         "values": values,
         "default": 10.0
-    })
+    }]
+    
 
     # sensorNoiseMu and Sigma: random constant noise
     input_vars.append({
@@ -40,7 +51,7 @@ def generate_inputs(duration, step_size, seed=0):
     while t < duration:
         next_t = t + step_size * random.randint(50, 150)
         values.append({
-            "value": random.choice([1, 2]),
+            "value": random.choice([0, 1, 2]),  # 0: open, 1: closed, 2: locked
             "start_time": t,
             "end_time": min(next_t, duration)
         })
