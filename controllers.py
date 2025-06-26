@@ -1,3 +1,4 @@
+import numpy as np
 class BaseController:
     def update(self, control_inputs: dict[str, float], time: float, step_size: float) -> dict[str, float]:
         pass
@@ -52,5 +53,70 @@ class OnOffController(BaseController):
         return {self.control_output: output} if output is not None else {}
     
 
+class FuzzyLogicController(BaseController):
+    def __init__(self, config: dict, input: float,  setpoint: float):
+        self.config = config
+        self.setpoint = setpoint
+        self.input = input
+        self.control_input = list(config["inputs"].keys())[0]  # assuming one input variable: "error"
+        self.control_output = list(config["output"].keys())[0]
+        self.input_mfs = config["inputs"][self.control_input]["membership_functions"]
+        self.output_mfs = config["output"][self.control_output]["membership_functions"]
+        self.output_range = config["output"][self.control_output]["range"]
+        self.rules = config["rules"]
 
+    def membership_degree(self, x, points):
+        """Triangular or trapezoidal membership."""
+        points = sorted(points)
+        if len(points) == 3:  # Triangular
+            a, b, c = points
+            if a <= x <= b:
+                return (x - a) / (b - a)
+            elif b < x <= c:
+                return (c - x) / (c - b)
+            else:
+                return 0.0
+        elif len(points) == 4:  # Trapezoidal
+            a, b, c, d = points
+            if a <= x < b:
+                return (x - a) / (b - a)
+            elif b <= x <= c:
+                return 1.0
+            elif c < x <= d:
+                return (d - x) / (d - c)
+            else:
+                return 0.0
+        else:
+            raise ValueError("Invalid membership function definition.")
+
+    def fuzzify(self, x, mfs):
+        return {label: self.membership_degree(x, points) for label, points in mfs.items()}
+
+    def defuzzify(self, output_degrees):
+        resolution = 100
+        output_values = np.linspace(*self.output_range, resolution)
+        aggregated = np.zeros_like(output_values)
+
+        for label, degree in output_degrees.items():
+            mf_points = self.output_mfs[label]
+            mf_values = np.array([self.membership_degree(v, mf_points) for v in output_values])
+            aggregated = np.maximum(aggregated, np.minimum(degree, mf_values))
+
+        return np.sum(output_values * aggregated) / np.sum(aggregated) if np.sum(aggregated) != 0 else 0
+
+    def update(self, model_variables, step_size):
+        feedback = model_variables[self.input]
+        error = self.setpoint - feedback
+        fuzzified_input = self.fuzzify(error, self.input_mfs)
+
+        # Apply rules
+        output_activation = {}
+        for rule in self.rules:
+            input_label = rule["if"][self.control_input]
+            output_label = rule["then"][self.control_output]
+            degree = fuzzified_input.get(input_label, 0)
+            output_activation[output_label] = max(output_activation.get(output_label, 0), degree)
+
+        output_value = self.defuzzify(output_activation)
+        return {self.control_output: float(output_value)}
  
