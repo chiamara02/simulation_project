@@ -1,6 +1,6 @@
 import random
 from scenarios.temp import *
-
+from scenarios.fuzzy_config import fuzzy_config
 def generate_inputs(duration, step_size, seed=0):
     random.seed(seed)  # ensures reproducibility
 
@@ -9,17 +9,19 @@ def generate_inputs(duration, step_size, seed=0):
     # outsideTemp fluctuates
     day = random.randint(1, 28)
     month = random.randint(1, 12)
-    start_time = random.randint(0, 24)
+    start_time = random.randint(0, 23)
     end_time = (start_time + 4) % 24  # ensures end_time is within the same day
+    freq = 10  # frequency in minutes
     temperatures = simulate_temperature(day, month, start_time, end_time, seed=seed)
-    final_temperatures = random_walk_interpolate(temperatures)
+    final_temperatures = random_walk_interpolate(temperatures, freq = freq)
     
     values = []
     rows = list(final_temperatures.itertuples())  # convert to list so we can look ahead
+    
 
     for i, row in enumerate(rows):
-        start_time = row.Index
-        end_time = rows[i + 1].Index if i + 1 < len(rows) else row.Index  # end_time is next row's index
+        start_time = start_time + freq * 60 if i > 0 else 0  # start_time is cumulative
+        end_time = start_time + freq * 60  
         values.append({
             "value": row.temp,
             "start_time": start_time,
@@ -78,6 +80,9 @@ def setup_controller(controller_type):
         return OnOffController(control_input="temperatureSensor.T", control_output="heatSourcePower",
                                setpoint=23.0, threshold=0.1,
                                on_value=1500.0, off_value=0.0)
+    elif controller_type == "fuzzy":
+        from controllers import FuzzyLogicController
+        return FuzzyLogicController(config=fuzzy_config, input = "temperatureSensor.T", setpoint=23.0)
     else:
         raise ValueError(f"Unsupported controller type: {controller_type}")
     

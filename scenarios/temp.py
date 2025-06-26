@@ -26,7 +26,7 @@ def simulate_temperature(day, month, start_time, end_time, seed=None):
     return data
 
 
-def random_walk_interpolate(df, col="temp", freq="10min", noise_scale=0.1): # TODO repeat sampling to obtain exactly n values in range
+def random_walk_interpolate(df, col="temp", freq=10, noise_scale=0.1): # TODO repeat sampling to obtain exactly n values in range
     result = []
     times = []
 
@@ -34,7 +34,7 @@ def random_walk_interpolate(df, col="temp", freq="10min", noise_scale=0.1): # TO
         t0, t1 = df.index[i], df.index[i+1]
         v0, v1 = df.iloc[i][col], df.iloc[i+1][col]
         
-        time_range = pd.date_range(t0, t1, freq=freq)
+        time_range = pd.date_range(t0, t1, freq=f"{freq}min")
         n = len(time_range)
 
         base = np.linspace(v0, v1, n)
@@ -52,18 +52,18 @@ def random_walk_interpolate(df, col="temp", freq="10min", noise_scale=0.1): # TO
     return pd.DataFrame({col: result}, index=times)
 
 # Example simulation
-temps = simulate_temperature(23, 8, 6, 12)
+#temps = simulate_temperature(23, 8, 6, 12)
 
-final_temps = random_walk_interpolate(temps, noise_scale=0.2)
-print(final_temps)
+#final_temps = random_walk_interpolate(temps, noise_scale=0.2)
+#print(final_temps)
 
 # Plotting the results
-plt.figure(figsize=(12, 6))
-plt.plot(final_temps.index, final_temps['temp'], label='Simulated Temperature', color='blue')
-plt.title('Simulated Temperature Over Time')
-plt.xlabel('Time')
-plt.ylabel('Temperature (°C)')
-plt.xticks(rotation=45)
-plt.grid()
-plt.legend()
-plt.show()
+#plt.figure(figsize=(12, 6))
+#plt.plot(final_temps.index, final_temps['temp'], label='Simulated Temperature', color='blue')
+#plt.title('Simulated Temperature Over Time')
+#plt.xlabel('Time')
+#plt.ylabel('Temperature (°C)')
+#plt.xticks(rotation=45)
+#plt.grid()
+#plt.legend()
+#plt.show()
