@@ -18,7 +18,7 @@ def main():
     parser.add_argument("--n", type=int, required=True, help="Number of simulations to run.")
     parser.add_argument("--duration", type=float, required=True, help="Simulation duration.")
     parser.add_argument("--step_size", type=float, required=True, help="Simulation step size.")
-    parser.add_argument("--controller", required=True, choices=["pid", "onoff"], help="Controller type.")
+    parser.add_argument("--controller", required=True, choices=["pid", "onoff", "fuzzy"], help="Controller type.")
 
     args = parser.parse_args()
 
@@ -37,8 +37,8 @@ def main():
             simulation_id=i
         )
 
-        results = simulation.run_simulation()
-        simulation.save_results_to_csv(results, sim_folder)
+        times, simulation_results = simulation.run_simulation()
+        simulation.save_results_to_csv(times, simulation_results, sim_folder)
 
         # Save metadata
         metadata = {

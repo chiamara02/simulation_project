@@ -48,10 +48,10 @@ class SimulationGenerator:
         json_path = os.path.join(CONFIG_DIR, f"{self.scenario_name}_sim_{self.simulation_id+1}.json")
         with open(json_path, "w") as f:
             json.dump(input_vars, f, indent=2)
-
+        print(f"Generated input events saved to {json_path}")
         return json_path
 
-    def __load_events(json_path):
+    def __load_events(self, json_path):
         """
         Loads a JSON file into the input_vars format for the FMUWrapper.
         """
@@ -87,12 +87,12 @@ class SimulationGenerator:
             plot_vars=[]
         )
 
-        return simulation_data
+        return times, simulation_data
 
 
-    def save_results_to_csv(self, simulation_data, output_path):
+    def save_results_to_csv(self, times, simulation_data, output_path):
         """
         Save the simulation results to a CSV file.
         """
-        self.fmu_simulator.save_results_to_csv(simulation_data, os.path.join(output_path, "simulation_results.csv"))
+        self.fmu_simulator.save_results_to_csv(times, simulation_data, os.path.join(output_path, "simulation_results.csv"))
         os.rename(self.simulation_events_path, os.path.join(output_path, "input_config.json"))

@@ -327,7 +327,7 @@ class FMUWrapper:
         plt.legend()
         plt.show()
 
-    def save_results_to_csv(self, simulation_data: Dict[str, List[float]], filename: str):
+    def save_results_to_csv(self,times, simulation_data: Dict[str, List[float]], filename: str):
         """
         Save the simulation results to a CSV file.
 
@@ -338,6 +338,7 @@ class FMUWrapper:
         """
         
         df = pd.DataFrame(simulation_data)
+        df['time'] = times
         df.to_csv(filename, index=False)
 
     def print_input_variables(self):
