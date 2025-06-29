@@ -1,18 +1,19 @@
 import os
 import json
 import importlib
-from FMUWrapper import FMUWrapper
+from simulation_engine.FMUWrapper import FMUWrapper
 
 CONFIG_DIR = "configs"
 
 class SimulationGenerator:
 
-    def __init__(self, scenario_name, duration, step_size, controller_type, simulation_id):
+    def __init__(self, scenario_name, duration, step_size, controller_type, simulation_id, seed):
 
         self.scenario_name = scenario_name
         self.duration = duration
         self.step_size = step_size
         self.simulation_id = simulation_id
+        self.seed = seed
         self.controller_type = controller_type
         self.scenario_module = self.__import_scenario()
         self.fmu_path = self.__get_fmu_path()
@@ -26,7 +27,7 @@ class SimulationGenerator:
         Dynamically import the scenario script.
         """
         try:
-            scenario_module = importlib.import_module(f"scenarios.{self.scenario_name}")
+            scenario_module = importlib.import_module(f"scenarios.{self.scenario_name}.{self.scenario_name}")
         except ImportError as e:
             raise ImportError(f"Scenario '{self.scenario_name}' could not be imported: {e}")
         return scenario_module
@@ -41,7 +42,7 @@ class SimulationGenerator:
             raise AttributeError(f"Scenario '{self.scenario_name}' must define a 'generate_inputs' function")
 
 
-        input_vars = self.scenario_module.generate_inputs(self.duration, self.step_size, self.simulation_id)
+        input_vars = self.scenario_module.generate_inputs(self.duration, self.step_size, self.simulation_id, self.seed)
 
         # Save to JSON
         os.makedirs(CONFIG_DIR, exist_ok=True)
@@ -74,7 +75,7 @@ class SimulationGenerator:
         return self.scenario_module.get_fmu_path() 
     
     
-    def run_simulation(self):
+    def run_simulation(self, plot_vars=None):
         """
         Run the FMU simulation with the generated input events and controller.
         """
@@ -84,10 +85,10 @@ class SimulationGenerator:
         times, plot_data, simulation_data = self.fmu_simulator.simulate_with_controller(
             input_vars=self.simulation_events,
             controller=self.controller,
-            plot_vars=[]
+            plot_vars= plot_vars if plot_vars else None
         )
 
-        return times, simulation_data
+        return times, plot_data, simulation_data
 
 
     def save_results_to_csv(self, times, simulation_data, output_path):
@@ -96,3 +97,10 @@ class SimulationGenerator:
         """
         self.fmu_simulator.save_results_to_csv(times, simulation_data, os.path.join(output_path, "simulation_results.csv"))
         os.rename(self.simulation_events_path, os.path.join(output_path, "input_config.json"))
+
+
+    def plot_results(self, times, plot_data):
+        """
+        Plot the simulation results and save the plot.
+        """
+        self.fmu_simulator.plot_results(times, plot_data)

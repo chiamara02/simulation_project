@@ -291,6 +291,7 @@ class FMUWrapper:
             # Store current time and variable values
             times.append(time)
             for var in plot_vars:
+                #print(f"Plotting variable: {var} at time {time}")
                 plot_data[var].append(self.__get_variable(var))
             for var in fmu_variables:
                 simulation_data[var].append(self.__get_variable(var))
