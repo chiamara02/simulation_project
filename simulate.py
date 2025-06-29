@@ -3,9 +3,7 @@ import os
 import json
 import importlib
 from datetime import datetime
-from FMUWrapper import FMUWrapper
-from controllers import PIDController, OnOffController
-from simulation_generator import SimulationGenerator
+from simulation_engine.simulation_generator import SimulationGenerator
 
 
 
@@ -34,12 +32,13 @@ def main():
             duration=args.duration,
             step_size=args.step_size,
             controller_type=args.controller,
-            simulation_id=i
+            simulation_id=i,
+            seed = i
         )
 
-        times, simulation_results = simulation.run_simulation()
+        times, plot_data, simulation_results = simulation.run_simulation(['temperatureSensor.T'])
         simulation.save_results_to_csv(times, simulation_results, sim_folder)
-
+        simulation.plot_results(times, plot_data)
         # Save metadata
         metadata = {
             "scenario": args.scenario,
