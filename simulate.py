@@ -16,7 +16,7 @@ def main():
     parser.add_argument("--duration", type=float, required=True, help="Simulation duration.")
     parser.add_argument("--step_size", type=float, required=True, help="Simulation step size.")
     parser.add_argument("--controller", required=True, choices=["pid", "onoff", "fuzzy"], help="Controller type.")
-    parser.add_argument("--plot", action="store_true", help="Plot the results.")
+    parser.add_argument("--plot", action="store_true", help="Plot the results.") 
 
     args = parser.parse_args()
 
@@ -38,7 +38,6 @@ def main():
 
         times, plot_data, simulation_results = simulation.run_simulation(['temperatureSensor.T'])
         simulation.save_results_to_csv(times, simulation_results, sim_folder)
-        
         if args.plot : simulation.plot_results(times, plot_data)
         
         # Save metadata

@@ -42,7 +42,7 @@ class SimulationGenerator:
             raise AttributeError(f"Scenario '{self.scenario_name}' must define a 'generate_inputs' function")
 
 
-        input_vars = self.scenario_module.generate_inputs(self.duration, self.step_size, self.simulation_id, self.seed)
+        input_vars = self.scenario_module.generate_inputs(self.duration, self.step_size, self.seed)
 
         # Save to JSON
         os.makedirs(CONFIG_DIR, exist_ok=True)

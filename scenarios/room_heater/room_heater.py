@@ -4,9 +4,12 @@ from scenarios.room_heater.utils.fuzzy_config import fuzzy_config
 
 
 
-def generate_inputs(duration, step_size, sim_id, seed=0):
+def generate_inputs(duration, step_size, seed=0):
+    """
+    Generate input variables for the room heater scenario.
+    """
+    
     random.seed(seed)  # ensures reproducibility
-
     input_vars = []
 
     # outsideTemp fluctuates
@@ -16,12 +19,10 @@ def generate_inputs(duration, step_size, sim_id, seed=0):
     end_time = (start_time + 4) % 24  # ensures end_time is within the same day
     freq = 10  # frequency in minutes
     temperatures = simulate_temperature(day, month, start_time, end_time, seed=seed)
-    final_temperatures = random_walk_interpolate(temperatures, freq = freq)
+    final_temperatures = interpolate_temperatures(temperatures, freq = freq)
     
     values = []
     rows = list(final_temperatures.itertuples())  # convert to list so we can look ahead
-    
-
     for i, row in enumerate(rows):
         start_time = start_time + freq * 60 if i > 0 else 0  # start_time is cumulative
         end_time = start_time + freq * 60  
@@ -37,7 +38,6 @@ def generate_inputs(duration, step_size, sim_id, seed=0):
         "default": 10.0
     }]
     
-
     # sensorNoiseMu and Sigma: random constant noise
     input_vars.append({
         "variable": "sensorNoiseMu",
@@ -50,7 +50,7 @@ def generate_inputs(duration, step_size, sim_id, seed=0):
         "default": random.uniform(0.0, 0.0)
     })
 
-    # windowState: randomly open (1) or closed (2) for periods
+    # windowState: randomly open (0), partially open (1) or closed (2) for periods
     values = []
     t = 0
     while t < duration:

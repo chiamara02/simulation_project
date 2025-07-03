@@ -6,6 +6,11 @@ import pandas as pd
 
 
 def simulate_temperature(day, month, start_time, end_time, seed=None):
+
+    """
+    Simulate temperature data for a given day and time range.
+    """
+
     if seed is not None:
         np.random.seed(seed)
     
@@ -26,7 +31,13 @@ def simulate_temperature(day, month, start_time, end_time, seed=None):
     return data
 
 
-def random_walk_interpolate(df, col="temp", freq=10, noise_scale=0.1): # TODO repeat sampling to obtain exactly n values in range
+def interpolate_temperatures(df, col="temp", freq=10, noise_scale=0.1): # TODO repeat sampling to obtain exactly n values in range
+    
+    """ 
+    Enrich temperature data generating values at a specified frequency 
+    by adding random noise to a linear interpolation between points.
+    """
+    
     result = []
     times = []
 
