@@ -112,7 +112,7 @@ class FuzzyLogicController(BaseController):
             output_label = list(rule_then.values())[0]
             output_activation[output_label] = max(output_activation.get(output_label, 0), rule_strength)
         
-        print("Output activation:", output_activation)
+        #print("Output activation:", output_activation)
 
 
         output_value = self.defuzzify(output_activation)
