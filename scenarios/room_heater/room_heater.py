@@ -1,4 +1,4 @@
-import random
+import numpy as np
 from scenarios.room_heater.utils.temp import *
 from scenarios.room_heater.utils.fuzzy_config import fuzzy_config
 
@@ -9,14 +9,14 @@ def generate_inputs(duration, step_size, seed=0):
     Generate input variables for the room heater scenario.
     """
     
-    random.seed(seed)  # ensures reproducibility
+    np.random.seed(seed)    # ensures reproducibility
     input_vars = []
 
-    # outsideTemp fluctuates
-    day = random.randint(1, 28)
-    month = random.randint(1, 12)
-    start_time = random.randint(0, 23)
-    end_time = (start_time + 4) % 24  # ensures end_time is within the same day
+    # outsideTemp 
+    day = np.random.randint(1, 28)
+    month = np.random.randint(1, 12)
+    start_time = np.random.randint(0, 23)
+    end_time = (start_time + duration / 3600) % 24  # ensures end_time is within the same day
     freq = 10  # frequency in minutes
     temperatures = simulate_temperature(day, month, start_time, end_time, seed=seed)
     final_temperatures = interpolate_temperatures(temperatures, freq = freq)
@@ -42,21 +42,21 @@ def generate_inputs(duration, step_size, seed=0):
     input_vars.append({
         "variable": "sensorNoiseMu",
         "values": [],
-        "default": random.uniform(-0.0, 0.0)
+        "default": np.random.uniform(-0.0, 0.0)
     })
     input_vars.append({
         "variable": "sensorNoiseSigma",
         "values": [],
-        "default": random.uniform(0.0, 0.0)
+        "default": np.random.uniform(0.0, 0.0)
     })
 
     # windowState: randomly open (0), partially open (1) or closed (2) for periods
     values = []
     t = 0
     while t < duration:
-        next_t = t + step_size * random.randint(1000, 3600)
+        next_t = t + step_size * np.random.exponential(2 / 3600) # on average twice per hour
         values.append({
-            "value": random.choice([0, 1, 2]),  # 0: open, 1: closed, 2: locked
+            "value": np.random.choice([0, 1, 2]),  # 0: open, 1: closed, 2: locked
             "start_time": t,
             "end_time": min(next_t, duration)
         })
