@@ -54,7 +54,7 @@ def generate_inputs(duration, step_size, seed=0):
     values = []
     t = 0
     while t < duration:
-        next_t = t + step_size #* np.random.exponential(2 / 3600) # on average twice per hour
+        next_t = t + step_size * int(np.random.exponential(1800)) # on average twice per hour
         values.append({
             "value": np.random.choice(3),  # 0: open, 1: closed, 2: locked
             "start_time": t,

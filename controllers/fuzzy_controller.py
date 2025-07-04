@@ -26,7 +26,10 @@ class FuzzyLogicController(BaseController):
         self.rules = config["rules"]
 
     def membership_degree(self, x, points):
-        """Triangular or trapezoidal membership."""
+        """
+        Triangular or trapezoidal membership.
+        """
+
         points = sorted(points)
         if len(points) == 3:
             a, b, c = points
@@ -54,12 +57,22 @@ class FuzzyLogicController(BaseController):
             raise ValueError("Invalid membership function definition.")
 
     def fuzzify(self, value, mfs):
+        """
+        Fuzzify a value against the membership functions.
+        Returns a dictionary of membership degrees for each label.
+        """
+
         return {
             label: self.membership_degree(value, points)
             for label, points in mfs.items()
         }
 
     def defuzzify(self, output_degrees):
+        """
+        Defuzzify the aggregated output degrees to a single value.
+        Uses the centroid method.
+        """
+
         resolution = 100
         output_values = np.linspace(*self.output_range, resolution)
         aggregated = np.zeros_like(output_values)
@@ -75,6 +88,11 @@ class FuzzyLogicController(BaseController):
         return np.sum(output_values * aggregated) / total if total != 0 else 0
 
     def update(self, model_variables, step_size):
+        """
+        Update the controller based on the current model variables.
+        Returns a dictionary with the output variable name and its computed value.
+        """
+
         # Build current input values, computing error from setpoint
         input_values = {}
         for var in self.inputs:
