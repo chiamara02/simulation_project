@@ -35,7 +35,7 @@ def generate_inputs(duration, step_size, seed=0):
     input_vars = [{
         "variable": "outsideTemp",
         "values": values,
-        "default": 10.0
+        "default": 20.0
     }]
     
     # sensorNoiseMu and Sigma: random constant noise
@@ -56,7 +56,7 @@ def generate_inputs(duration, step_size, seed=0):
     while t < duration:
         next_t = t + step_size * int(np.random.exponential(1800)) # on average twice per hour
         values.append({
-            "value": np.random.choice(3),  # 0: open, 1: closed, 2: locked
+            "value": 2 ,#np.random.choice(3),  # 0: open, 1: closed, 2: locked
             "start_time": t,
             "end_time": min(next_t, duration)
         })
@@ -77,15 +77,15 @@ def setup_controller(controller_type):
     if controller_type == "pid":
         from controllers.pid_controller import PIDController
         return PIDController(control_input="temperatureSensor.T", control_output="heatSourcePower",
-                             Kp=500, Ki=0.2, Kd=0, setpoint=16.0, max_output=2000.0)
+                             Kp=500, Ki=0.02, Kd=0, setpoint=20.0, max_output=2000.0)
     elif controller_type == "onoff":
         from controllers.onoff_controller import OnOffController
         return OnOffController(control_input="temperatureSensor.T", control_output="heatSourcePower",
-                               setpoint=16.0, threshold=0.1,
+                               setpoint=20.0, threshold=0.5,
                                on_value=1500.0, off_value=0.0)
     elif controller_type == "fuzzy":
         from controllers.fuzzy_controller import FuzzyLogicController
-        return FuzzyLogicController(config=fuzzy_config, target_var= "temperatureSensor.T", inputs = ["error","outsideTemp","roomAir.der_T"], setpoint=16.0)
+        return FuzzyLogicController(config=fuzzy_config, target_var= "temperatureSensor.T", inputs = ["error","outsideTemp","roomAir.der_T"], setpoint=20.0)
     else:
         raise ValueError(f"Unsupported controller type: {controller_type}")
     
