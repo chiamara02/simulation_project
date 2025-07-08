@@ -24,8 +24,8 @@ def simulate_temperature(day, month, start_time, end_time, seed=None):
     data = data[['temp']]
     
  
-    print(f"Fetched data for {day}/{month} from {start_time} to {end_time}")
-    print(data)
+    #print(f"Fetched data for {day}/{month} from {start_time} to {end_time}")
+    #print(data)
     
     
     return data
@@ -48,29 +48,44 @@ def interpolate_temperatures(df, col="temp", freq=10, noise_scale=0.1): # TODO r
         time_range = pd.date_range(t0, t1, freq=f"{freq}min")
         n = len(time_range)
 
-        base = np.linspace(v0, v1, n)
-        noise = np.random.normal(0, noise_scale, n).cumsum()
-        noise -= np.linspace(0, noise[-1], n)  # anchor start and end
-        segment = base + noise
+       # Skip segment if no intermediate time points
+        if n < 2:
+            continue
 
-        result.extend(segment[:-1])
-        times.extend(time_range[:-1])
+        # Initialize segment values
+        segment = [v0]
+        last_point = v0
+        direction = 1 if v1 >= last_point else -1
 
-    # Add final point
+        for _ in range(n - 2):  # Exclude first and last points
+            while True:
+                candidate = segment[-1] + np.random.normal(0, noise_scale)
+                if direction == 1 and last_point <= candidate <= v1:
+                    break
+                elif direction == -1 and v1 <= candidate <= last_point:
+                    break
+            segment.append(candidate)
+            last_point = candidate
+
+        segment.append(v1)  # Final value must match v1
+
+        result.extend(segment)
+        times.extend(time_range)
+
+    # Add last point from df
     result.append(df.iloc[-1][col])
     times.append(df.index[-1])
 
     return pd.DataFrame({col: result}, index=times)
 
+
 # Example simulation
-#temps = simulate_temperature(23, 8, 6, 12)
-
-#final_temps = random_walk_interpolate(temps, noise_scale=0.2)
+#temps = simulate_temperature(23, 2, 17, 22)
+#final_temps = interpolate_temperatures(temps, noise_scale=0.2)
 #print(final_temps)
-
-# Plotting the results
+# #Plotting the results
 #plt.figure(figsize=(12, 6))
-#plt.plot(final_temps.index, final_temps['temp'], label='Simulated Temperature', color='blue')
+#plt.plot(final_temps.index, final_temps['temp'], label='Simulated Temperature', color='blue', marker='o', markersize=4)
 #plt.title('Simulated Temperature Over Time')
 #plt.xlabel('Time')
 #plt.ylabel('Temperature (°C)')
