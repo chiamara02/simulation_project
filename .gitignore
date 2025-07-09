@@ -172,3 +172,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+# macos requirements and simulation results
+open_OM_macos.md
+simulation_results.csv
