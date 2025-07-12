@@ -14,7 +14,7 @@ equation
   end if;
   Q_flow = G*dT;
   annotation(
-    Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics = {Rectangle(fillColor = {192, 192, 192}, pattern = LinePattern.None, fillPattern = FillPattern.Backward, extent = {{-90, 70}, {90, -70}}), Line(points = {{-90, 70}, {-90, -70}}, thickness = 0.5), Line(points = {{90, 70}, {90, -70}}, thickness = 0.5), Text(textColor = {0, 0, 255}, extent = {{-150, 120}, {150, 80}}, textString = "%name")}),
+    Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics = {Rectangle(fillColor = {153, 193, 241}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-90, 70}, {90, -70}}), Line(points = {{-90, 70}, {-90, -70}}, thickness = 0.5), Line(points = {{90, 70}, {90, -70}}, thickness = 0.5), Text(textColor = {0, 0, 255}, extent = {{-150, 120}, {150, 80}}, textString = "%name"), Line(points = {{0, 70}, {0, -70}}, color = {99, 69, 44}, thickness = 3), Line(origin = {90, 0},points = {{0, 70}, {0, -70}}, color = {99, 69, 44}, thickness = 3), Line(origin = {-90, 0},points = {{0, 70}, {0, -70}}, color = {99, 69, 44}, thickness = 3), Line(origin = {-20, 70}, rotation = -90,points = {{0, 110}, {0, -70}}, color = {99, 69, 44}, thickness = 3), Line(origin = {-20, -2}, rotation = -90, points = {{0, 110}, {0, -70}}, color = {99, 69, 44}, thickness = 3), Line(origin = {-20, -70}, rotation = -90, points = {{0, 110}, {0, -70}}, color = {99, 69, 44}, thickness = 3)}),
     Documentation(info = "<html>
 <p>
 This is a model for transport of heat without storing it; see also:
@@ -63,5 +63,6 @@ Typical values for k at 20 degC in W/(m.K):
   wood         0.1 ... 0.2
 </pre></blockquote>
 </html>"),
-    uses(Modelica(version = "4.0.0")));
+    uses(Modelica(version = "4.0.0")),
+  Diagram(graphics));
 end Window;
