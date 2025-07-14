@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-def steady_state_error(data: pd.DataFrame, output_var: str, target_var: str) -> float:
+def steady_state_error(data: pd.DataFrame, output_var: str, target_var: str, disturbance_src: str) -> float:
     
     if output_var not in data.columns or target_var not in data.columns:
         raise ValueError("Output or target variable not found in DataFrame.")
@@ -11,7 +11,7 @@ def steady_state_error(data: pd.DataFrame, output_var: str, target_var: str) -> 
     return steady_state_error_value
 
 
-def overshoot(data: pd.DataFrame, output_var: str, target_var: str) -> float:
+def overshoot(data: pd.DataFrame, output_var: str, target_var: str, disturbance_src: str) -> float:
     
     if output_var not in data.columns or target_var not in data.columns:
         raise ValueError("Output or target variable not found in DataFrame.")
@@ -20,7 +20,7 @@ def overshoot(data: pd.DataFrame, output_var: str, target_var: str) -> float:
     return overshoot_value
 
 
-def settling_time(data: pd.DataFrame, output_var: str, target_var: str) -> float:
+def settling_time(data: pd.DataFrame, output_var: str, target_var: str, disturbance_src: str) -> float:
     
     if output_var not in data.columns or target_var not in data.columns:
         raise ValueError("Output or target variable not found in DataFrame.")
@@ -35,7 +35,7 @@ def settling_time(data: pd.DataFrame, output_var: str, target_var: str) -> float
     return settling_time_value
 
 
-def rise_time(data: pd.DataFrame, output_var: str, target_var: str) -> float:
+def rise_time(data: pd.DataFrame, output_var: str, target_var: str, disturbance_src: str) -> float:
 
     if output_var not in data.columns or target_var not in data.columns:
         raise ValueError("Output or target variable not found in DataFrame.")
@@ -48,7 +48,7 @@ def rise_time(data: pd.DataFrame, output_var: str, target_var: str) -> float:
     return rise_time
 
 
-def mean_square_error(data: pd.DataFrame, output_var: str, target_var: str) -> float:
+def mean_square_error(data: pd.DataFrame, output_var: str, target_var: str, disturbance_src: str) -> float:
 
     if output_var not in data.columns or target_var not in data.columns:
         raise ValueError("Output or target variable not found in DataFrame.")
@@ -57,7 +57,7 @@ def mean_square_error(data: pd.DataFrame, output_var: str, target_var: str) -> f
     return mse 
 
 
-def energy_consumed(data: pd.DataFrame, output_var: str) -> float:
+def energy_consumed(data: pd.DataFrame, output_var: str, disturbance_src: str) -> float:
 
     if output_var not in data.columns:
         raise ValueError("Output variable not found in DataFrame.")
@@ -67,7 +67,7 @@ def energy_consumed(data: pd.DataFrame, output_var: str) -> float:
     return energy
 
 
-def comfort_time(data: pd.DataFrame, output_var: str, target_var: str) -> float:
+def comfort_time(data: pd.DataFrame, output_var: str, target_var: str, disturbance_src: str) -> float:
 
     if output_var not in data.columns or target_var not in data.columns:
         raise ValueError("Output or target variable not found in DataFrame.")
@@ -79,7 +79,7 @@ def comfort_time(data: pd.DataFrame, output_var: str, target_var: str) -> float:
     
     return comfort_time
 
-def variance_after_settling(data: pd.DataFrame, output_var: str, target_var: str) -> float:
+def variance_after_settling(data: pd.DataFrame, output_var: str, target_var: str, disturbance_src: str) -> float:
 
     if output_var not in data.columns or target_var not in data.columns:
         raise ValueError("Output or target variable not found in DataFrame.")
@@ -94,7 +94,7 @@ def variance_after_settling(data: pd.DataFrame, output_var: str, target_var: str
 
 
 
-def number_of_oscillations(data: pd.DataFrame, output_var: str, target_var: str) -> int:
+def number_of_oscillations(data: pd.DataFrame, output_var: str, target_var: str, disturbance_src: str) -> int:
 
     if output_var not in data.columns or target_var not in data.columns:
         raise ValueError("Output or target variable not found in DataFrame.")
@@ -115,7 +115,7 @@ def recovery_time(data: pd.DataFrame, output_var: str, target_var: str, disturba
     if output_var not in data.columns or target_var not in data.columns:
         raise ValueError("Output or target variable not found in DataFrame.")
     
-    disturbance_times = data['time'][data[disturbance_src] != data[disturbance_src].shift(1)]
+    disturbance_times = data['time'][(data[disturbance_src] != data[disturbance_src].shift(1)) & data[disturbance_src] != 2]
     recovery_times = []
     
     if not disturbance_times: return float('nan')
