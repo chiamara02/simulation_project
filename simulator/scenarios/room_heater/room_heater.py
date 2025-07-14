@@ -47,7 +47,7 @@ def generate_inputs(duration, step_size, seed=0):
     input_vars.append({
         "variable": "sensorNoiseSigma",
         "values": [],
-        "default": np.random.uniform(0.2, 0.5
+        "default": np.random.uniform(0.0, 0.0
         )
     })
 
@@ -95,4 +95,4 @@ def get_fmu_path():
     """
     Returns the path to the FMU model.
     """
-    return "scenarios/room_heater/fmu/RoomHeater.fmu"
+    return "simulator/scenarios/room_heater/fmu/RoomHeater.fmu"

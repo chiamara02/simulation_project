@@ -58,7 +58,10 @@ def interpolate_temperatures(df, col="temp", freq=10, noise_scale=0.1): # TODO r
         direction = 1 if v1 >= last_point else -1
 
         for _ in range(n - 2):  # Exclude first and last points
-            while True:
+
+            attempts = 0
+            while attempts < 100:  # Limit attempts to avoid infinite loop
+                attempts += 1
                 candidate = segment[-1] + np.random.normal(0, noise_scale)
                 if direction == 1 and last_point <= candidate <= v1:
                     break
