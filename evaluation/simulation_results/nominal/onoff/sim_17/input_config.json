@@ -1,0 +1,199 @@
+[
+  {
+    "variable": "outsideTemp",
+    "values": [
+      {
+        "value": 14.2,
+        "start_time": 0,
+        "end_time": 600
+      },
+      {
+        "value": 14.047152654117411,
+        "start_time": 600,
+        "end_time": 1200
+      },
+      {
+        "value": 13.987705856116948,
+        "start_time": 1200,
+        "end_time": 1800
+      },
+      {
+        "value": 13.864156368792884,
+        "start_time": 1800,
+        "end_time": 2400
+      },
+      {
+        "value": 13.802019507946616,
+        "start_time": 2400,
+        "end_time": 3000
+      },
+      {
+        "value": 13.713124728040507,
+        "start_time": 3000,
+        "end_time": 3600
+      },
+      {
+        "value": 13.3,
+        "start_time": 3600,
+        "end_time": 4200
+      },
+      {
+        "value": 13.3,
+        "start_time": 4200,
+        "end_time": 4800
+      },
+      {
+        "value": 13.221310289801911,
+        "start_time": 4800,
+        "end_time": 5400
+      },
+      {
+        "value": 13.1456239762486,
+        "start_time": 5400,
+        "end_time": 6000
+      },
+      {
+        "value": 13.061683544925975,
+        "start_time": 6000,
+        "end_time": 6600
+      },
+      {
+        "value": 12.960181359513134,
+        "start_time": 6600,
+        "end_time": 7200
+      },
+      {
+        "value": 12.925929391015153,
+        "start_time": 7200,
+        "end_time": 7800
+      },
+      {
+        "value": 12.7,
+        "start_time": 7800,
+        "end_time": 8400
+      },
+      {
+        "value": 12.7,
+        "start_time": 8400,
+        "end_time": 9000
+      },
+      {
+        "value": 12.672908709061847,
+        "start_time": 9000,
+        "end_time": 9600
+      },
+      {
+        "value": 12.527736775211862,
+        "start_time": 9600,
+        "end_time": 10200
+      },
+      {
+        "value": 12.419720879100577,
+        "start_time": 10200,
+        "end_time": 10800
+      },
+      {
+        "value": 12.410780839895711,
+        "start_time": 10800,
+        "end_time": 11400
+      },
+      {
+        "value": 12.402468693024446,
+        "start_time": 11400,
+        "end_time": 12000
+      },
+      {
+        "value": 12.4,
+        "start_time": 12000,
+        "end_time": 12600
+      },
+      {
+        "value": 12.4,
+        "start_time": 12600,
+        "end_time": 13200
+      },
+      {
+        "value": 12.382821656691327,
+        "start_time": 13200,
+        "end_time": 13800
+      },
+      {
+        "value": 12.360714454447434,
+        "start_time": 13800,
+        "end_time": 14400
+      },
+      {
+        "value": 12.287768013225072,
+        "start_time": 14400,
+        "end_time": 15000
+      },
+      {
+        "value": 12.244100220767523,
+        "start_time": 15000,
+        "end_time": 15600
+      },
+      {
+        "value": 12.223953742830552,
+        "start_time": 15600,
+        "end_time": 16200
+      },
+      {
+        "value": 12.2,
+        "start_time": 16200,
+        "end_time": 16800
+      },
+      {
+        "value": 12.2,
+        "start_time": 16800,
+        "end_time": 17400
+      }
+    ],
+    "default": 20.0
+  },
+  {
+    "variable": "sensorNoiseMu",
+    "values": [],
+    "default": 0.0
+  },
+  {
+    "variable": "sensorNoiseSigma",
+    "values": [],
+    "default": 0.0
+  },
+  {
+    "variable": "windowState",
+    "values": [
+      {
+        "value": 2,
+        "start_time": 0,
+        "end_time": 3677.0
+      },
+      {
+        "value": 2,
+        "start_time": 3677.0,
+        "end_time": 9791.0
+      },
+      {
+        "value": 2,
+        "start_time": 9791.0,
+        "end_time": 10885.0
+      },
+      {
+        "value": 2,
+        "start_time": 10885.0,
+        "end_time": 11805.0
+      },
+      {
+        "value": 2,
+        "start_time": 11805.0,
+        "end_time": 12444.0
+      },
+      {
+        "value": 2,
+        "start_time": 12444.0,
+        "end_time": 14400.0
+      }
+    ],
+    "default": 2
+  }
+]

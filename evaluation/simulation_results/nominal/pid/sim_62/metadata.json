@@ -1,0 +1,8 @@
+{
+  "scenario": "room_heater",
+  "simulation_id": 62,
+  "controller": "pid",
+  "duration": 14400.0,
+  "step_size": 1.0,
+  "timestamp": "2025-07-14T19:27:07.878001"
+}
