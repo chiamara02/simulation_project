@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import scipy.stats as stats
 
 def steady_state_error(data: pd.DataFrame, output_var: str, target_var: str, disturbance_src: str) -> float:
     
@@ -138,3 +139,39 @@ def recovery_time(data: pd.DataFrame, output_var: str, target_var: str, disturba
 
 
     return np.mean(recovery_times)
+
+
+def compute_confidence_interval(data, confidence=0.95):
+    data = np.array(data)
+    # Remove NaN values
+    data = data[~np.isnan(data)]  
+    if len(data) == 0:
+        return np.nan, np.nan, np.nan
+    
+    n = len(data)
+    mean = np.mean(data)
+    std = np.std(data, ddof=1)
+    z = stats.norm.ppf(1 - (1 - confidence) / 2)
+    ci_lower = mean - z * (std / np.sqrt(n))
+    ci_upper = mean + z * (std / np.sqrt(n))
+    return mean, ci_lower, ci_upper
+
+def compute_variance_confidence_interval(data, confidence=0.95):
+    """Using chi-squared distribution"""
+    data = np.array(data)
+    data = data[~np.isnan(data)] 
+    if len(data) <= 1:
+        return np.nan, np.nan, np.nan
+    
+    n = len(data)
+    var = np.var(data, ddof=1)
+    df = n - 1
+    
+    # Chi-squared critical values
+    chi2_lower = stats.chi2.ppf((1 - confidence) / 2, df)
+    chi2_upper = stats.chi2.ppf(1 - (1 - confidence) / 2, df)
+    
+    var_ci_lower = (df * var) / chi2_upper
+    var_ci_upper = (df * var) / chi2_lower
+    
+    return var, var_ci_lower, var_ci_upper
