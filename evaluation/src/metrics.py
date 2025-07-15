@@ -2,19 +2,18 @@ import numpy as np
 import pandas as pd
 import scipy.stats as stats
 
-def settling_time(data: pd.DataFrame, output_var: str, target_var: float, disturbance_src: str) -> float:
-    
-    if output_var not in data.columns :
-        raise ValueError("Output or target variable not found in DataFrame.")
+def settling_time(data: pd.DataFrame, output_var: str, target_val: float, disturbance_src: str) -> float:
+    tolerance_band = 0.025 * abs(target_val)
+    signal = data[output_var].values
+    time = data['time'].values
 
-    for row in data.itertuples():
-        if abs(target_var - getattr(row, output_var)) < 0.025 * target_var:
-            settling_time_value = getattr(row, 'time')
-            break
-    else:
-        settling_time_value = np.nan  # If no settling time is found
+    for i in range(len(signal)):
+        within_band = np.abs(signal[i:] - target_val) < tolerance_band
+        if np.all(within_band):
+            return time[i]
 
-    return settling_time_value
+    return np.nan  # No settling time found
+
 
 def steady_state_error(data: pd.DataFrame, output_var: str, target_var: float, disturbance_src: str) -> float:
     
@@ -43,8 +42,9 @@ def rise_time(data: pd.DataFrame, output_var: str, target_var: float, disturbanc
     if output_var not in data.columns :
         raise ValueError("Output or target variable not found in DataFrame.")
     
+    rise_time = np.nan
     for row in data.itertuples():
-        if getattr(row, output_var) >= 0.99 * target_var:
+        if getattr(row, output_var) >= 0.985 * target_var:
             rise_time = getattr(row, 'time')
             break
     
@@ -65,7 +65,7 @@ def energy_consumed(data: pd.DataFrame, output_var: str, target_var: float, dist
     if output_var not in data.columns:
         raise ValueError("Output variable not found in DataFrame.")
     
-    energy = np.sum(data[output_var]) / (3600 * 1000)  # Convert to kWh
+    energy = np.sum(data["heatSourcePower"]) / (3600 * 1000)  # Convert to kWh
 
     return energy
 
@@ -122,7 +122,7 @@ def recovery_time(data: pd.DataFrame, output_var: str, target_var: float, distur
     disturbance_times = data['time'][(data[disturbance_src] != data[disturbance_src].shift(1)) & data[disturbance_src] != 2]
     recovery_times = []
     
-    if disturbance_times.empty: return float('nan')
+    if disturbance_times.empty: return np.nan
 
     for i in range(len(disturbance_times)):
         start_time = disturbance_times[i]
@@ -135,7 +135,7 @@ def recovery_time(data: pd.DataFrame, output_var: str, target_var: float, distur
 
         time_at_recovery = data_slice['time'][abs(target_var - data_slice[output_var]) <= 
                                            steady_state_error(data, output_var, target_var, disturbance_src)]
-        if time_at_recovery.empty: return float('nan')
+        if time_at_recovery.empty: return np.nan
         time_at_recovery = time_at_recovery.iloc[0]
         recovery_duration = time_at_recovery - data_slice['time'].iloc[0]
         recovery_times.append(recovery_duration)

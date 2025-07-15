@@ -82,7 +82,7 @@ def setup_controller(controller_type):
     elif controller_type == "onoff":
         from controllers.onoff_controller import OnOffController
         return OnOffController(control_input="measuredTemp", control_output="heatSourcePower",
-                               setpoint=20.0, threshold=0.5,
+                               setpoint=20.0, threshold=0.1,
                                on_value=1500.0, off_value=0.0)
     elif controller_type == "fuzzy":
         from controllers.fuzzy_controller import FuzzyLogicController
