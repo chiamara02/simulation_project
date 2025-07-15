@@ -47,8 +47,8 @@ def generate_inputs(duration, step_size, seed=0):
     input_vars.append({
         "variable": "sensorNoiseSigma",
         "values": [],
-        "default": np.random.uniform(0.0, 0.0
-        )
+        "default": 0.0 
+        
     })
 
     # windowState: randomly open (0), partially open (1) or closed (2) for periods
@@ -57,7 +57,7 @@ def generate_inputs(duration, step_size, seed=0):
     while t < duration:
         next_t = t + step_size * int(np.random.exponential(1800)) # on average twice per hour
         values.append({
-            "value": 2 ,#np.random.choice(3),  # 0: open, 1: closed, 2: locked
+            "value": np.random.choice(3),  # 0: open, 1: closed, 2: locked
             "start_time": t,
             "end_time": min(next_t, duration)
         })

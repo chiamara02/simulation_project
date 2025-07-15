@@ -1,0 +1,209 @@
+[
+  {
+    "variable": "outsideTemp",
+    "values": [
+      {
+        "value": 22.9,
+        "start_time": 0,
+        "end_time": 600
+      },
+      {
+        "value": 22.98509974083019,
+        "start_time": 600,
+        "end_time": 1200
+      },
+      {
+        "value": 23.002875233280236,
+        "start_time": 1200,
+        "end_time": 1800
+      },
+      {
+        "value": 23.112926790271437,
+        "start_time": 1800,
+        "end_time": 2400
+      },
+      {
+        "value": 23.193454559636436,
+        "start_time": 2400,
+        "end_time": 3000
+      },
+      {
+        "value": 23.230903885452285,
+        "start_time": 3000,
+        "end_time": 3600
+      },
+      {
+        "value": 24.2,
+        "start_time": 3600,
+        "end_time": 4200
+      },
+      {
+        "value": 24.2,
+        "start_time": 4200,
+        "end_time": 4800
+      },
+      {
+        "value": 24.24131569730157,
+        "start_time": 4800,
+        "end_time": 5400
+      },
+      {
+        "value": 24.306511319975506,
+        "start_time": 5400,
+        "end_time": 6000
+      },
+      {
+        "value": 24.41397826431775,
+        "start_time": 6000,
+        "end_time": 6600
+      },
+      {
+        "value": 24.466088530011508,
+        "start_time": 6600,
+        "end_time": 7200
+      },
+      {
+        "value": 24.496912899159536,
+        "start_time": 7200,
+        "end_time": 7800
+      },
+      {
+        "value": 24.7,
+        "start_time": 7800,
+        "end_time": 8400
+      },
+      {
+        "value": 24.7,
+        "start_time": 8400,
+        "end_time": 9000
+      },
+      {
+        "value": 24.769807918982995,
+        "start_time": 9000,
+        "end_time": 9600
+      },
+      {
+        "value": 24.996738396037347,
+        "start_time": 9600,
+        "end_time": 10200
+      },
+      {
+        "value": 25.06309455214594,
+        "start_time": 10200,
+        "end_time": 10800
+      },
+      {
+        "value": 25.15300474232837,
+        "start_time": 10800,
+        "end_time": 11400
+      },
+      {
+        "value": 25.19927374604074,
+        "start_time": 11400,
+        "end_time": 12000
+      },
+      {
+        "value": 26.1,
+        "start_time": 12000,
+        "end_time": 12600
+      },
+      {
+        "value": 26.1,
+        "start_time": 12600,
+        "end_time": 13200
+      },
+      {
+        "value": 26.107987399517498,
+        "start_time": 13200,
+        "end_time": 13800
+      },
+      {
+        "value": 26.204411701709944,
+        "start_time": 13800,
+        "end_time": 14400
+      },
+      {
+        "value": 26.30151180394414,
+        "start_time": 14400,
+        "end_time": 15000
+      },
+      {
+        "value": 26.38002022937167,
+        "start_time": 15000,
+        "end_time": 15600
+      },
+      {
+        "value": 26.410684472747928,
+        "start_time": 15600,
+        "end_time": 16200
+      },
+      {
+        "value": 27.6,
+        "start_time": 16200,
+        "end_time": 16800
+      },
+      {
+        "value": 27.6,
+        "start_time": 16800,
+        "end_time": 17400
+      }
+    ],
+    "default": 20.0
+  },
+  {
+    "variable": "sensorNoiseMu",
+    "values": [],
+    "default": 0.0
+  },
+  {
+    "variable": "sensorNoiseSigma",
+    "values": [],
+    "default": 0.0
+  },
+  {
+    "variable": "windowState",
+    "values": [
+      {
+        "value": 0,
+        "start_time": 0,
+        "end_time": 2739.0
+      },
+      {
+        "value": 2,
+        "start_time": 2739.0,
+        "end_time": 3384.0
+      },
+      {
+        "value": 0,
+        "start_time": 3384.0,
+        "end_time": 3678.0
+      },
+      {
+        "value": 1,
+        "start_time": 3678.0,
+        "end_time": 8320.0
+      },
+      {
+        "value": 0,
+        "start_time": 8320.0,
+        "end_time": 9192.0
+      },
+      {
+        "value": 1,
+        "start_time": 9192.0,
+        "end_time": 9322.0
+      },
+      {
+        "value": 2,
+        "start_time": 9322.0,
+        "end_time": 14252.0
+      },
+      {
+        "value": 2,
+        "start_time": 14252.0,
+        "end_time": 14400.0
+      }
+    ],
+    "default": 2
+  }
+]

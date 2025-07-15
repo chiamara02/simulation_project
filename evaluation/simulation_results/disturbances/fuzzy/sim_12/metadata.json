@@ -1,0 +1,8 @@
+{
+  "scenario": "room_heater",
+  "simulation_id": 12,
+  "controller": "fuzzy",
+  "duration": 14400.0,
+  "step_size": 1.0,
+  "timestamp": "2025-07-15T21:33:54.768544"
+}
