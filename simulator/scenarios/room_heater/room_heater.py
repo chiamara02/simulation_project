@@ -51,17 +51,27 @@ def generate_inputs(duration, step_size, seed=0):
         
     })
 
+
     # windowState: randomly open (0), partially open (1) or closed (2) for periods
     values = []
     t = 0
+    current_state = 2   # start closed
+
     while t < duration:
-        next_t = t + step_size * int(np.random.exponential(1800)) # on average twice per hour
+        # Sample next transition time
+        next_t = t + step_size * int(np.random.exponential(7200))
+        next_state = simulate_window_markov(current_state)
+
         values.append({
-            "value": np.random.choice(3),  # 0: open, 1: closed, 2: locked
+            "value": current_state,
             "start_time": t,
             "end_time": min(next_t, duration)
         })
+
+        # Move forward
         t = next_t
+        current_state = next_state
+
     input_vars.append({
         "variable": "windowState",
         "values": values,
@@ -70,6 +80,18 @@ def generate_inputs(duration, step_size, seed=0):
 
     return input_vars
 
+def simulate_window_markov(current_state):
+
+    states = [0, 1, 2]  # 0=open, 1=vasistas, 2=closed
+    
+    transition_rules = {
+        2: [0, 1],  # from closed → can go to open or vasistas
+        0: [2],     # from open → must go to closed
+        1: [2]      # from vasistas → must go to closed
+    }
+    possible_next = transition_rules[current_state]
+    next_state = int(np.random.choice(possible_next))
+    return next_state
 
 def setup_controller(controller_type):
     """

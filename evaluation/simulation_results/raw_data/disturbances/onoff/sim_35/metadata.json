@@ -1,0 +1,8 @@
+{
+  "scenario": "room_heater",
+  "simulation_id": 35,
+  "controller": "onoff",
+  "duration": 14400.0,
+  "step_size": 1.0,
+  "timestamp": "2025-07-17T17:43:37.416265"
+}

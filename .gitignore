@@ -82,7 +82,7 @@ target/
 profile_default/
 ipython_config.py
 
-simulation_results/
+
 sources/
 *.bib
 .txt
@@ -160,7 +160,7 @@ dmypy.json
 
 # pytype static type analyzer
 .pytype/
-
+evaluation/simulation_results/clean_data/
 # Cython debug symbols
 cython_debug/
 
@@ -180,4 +180,4 @@ cython_debug/
 
 # macos requirements and simulation results
 open_OM_macos.md
-simulation_results.csv
+#simulation_results.csv
