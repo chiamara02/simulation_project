@@ -1,0 +1,179 @@
+[
+  {
+    "variable": "outsideTemp",
+    "values": [
+      {
+        "value": 14.6,
+        "start_time": 0,
+        "end_time": 600
+      },
+      {
+        "value": 14.755133911125306,
+        "start_time": 600,
+        "end_time": 1200
+      },
+      {
+        "value": 14.763052513586187,
+        "start_time": 1200,
+        "end_time": 1800
+      },
+      {
+        "value": 14.780450166431804,
+        "start_time": 1800,
+        "end_time": 2400
+      },
+      {
+        "value": 14.794917947750836,
+        "start_time": 2400,
+        "end_time": 3000
+      },
+      {
+        "value": 14.81602889284594,
+        "start_time": 3000,
+        "end_time": 3600
+      },
+      {
+        "value": 15.0,
+        "start_time": 3600,
+        "end_time": 4200
+      },
+      {
+        "value": 15.0,
+        "start_time": 4200,
+        "end_time": 4800
+      },
+      {
+        "value": 14.944179494462393,
+        "start_time": 4800,
+        "end_time": 5400
+      },
+      {
+        "value": 14.925550582059993,
+        "start_time": 5400,
+        "end_time": 6000
+      },
+      {
+        "value": 14.817993635116324,
+        "start_time": 6000,
+        "end_time": 6600
+      },
+      {
+        "value": 14.817579276764054,
+        "start_time": 6600,
+        "end_time": 7200
+      },
+      {
+        "value": 14.802635024707536,
+        "start_time": 7200,
+        "end_time": 7800
+      },
+      {
+        "value": 14.8,
+        "start_time": 7800,
+        "end_time": 8400
+      },
+      {
+        "value": 14.8,
+        "start_time": 8400,
+        "end_time": 9000
+      },
+      {
+        "value": 14.800593311207761,
+        "start_time": 9000,
+        "end_time": 9600
+      },
+      {
+        "value": 14.813484444087775,
+        "start_time": 9600,
+        "end_time": 10200
+      },
+      {
+        "value": 14.829533271149424,
+        "start_time": 10200,
+        "end_time": 10800
+      },
+      {
+        "value": 14.857053656618664,
+        "start_time": 10800,
+        "end_time": 11400
+      },
+      {
+        "value": 14.870665405014426,
+        "start_time": 11400,
+        "end_time": 12000
+      },
+      {
+        "value": 14.9,
+        "start_time": 12000,
+        "end_time": 12600
+      },
+      {
+        "value": 14.9,
+        "start_time": 12600,
+        "end_time": 13200
+      },
+      {
+        "value": 14.902008110582385,
+        "start_time": 13200,
+        "end_time": 13800
+      },
+      {
+        "value": 15.077994138776825,
+        "start_time": 13800,
+        "end_time": 14400
+      },
+      {
+        "value": 15.083283890692341,
+        "start_time": 14400,
+        "end_time": 15000
+      },
+      {
+        "value": 15.242128865605066,
+        "start_time": 15000,
+        "end_time": 15600
+      },
+      {
+        "value": 15.377575794873612,
+        "start_time": 15600,
+        "end_time": 16200
+      },
+      {
+        "value": 15.6,
+        "start_time": 16200,
+        "end_time": 16800
+      },
+      {
+        "value": 15.6,
+        "start_time": 16800,
+        "end_time": 17400
+      }
+    ],
+    "default": 20.0
+  },
+  {
+    "variable": "sensorNoiseMu",
+    "values": [],
+    "default": 0.0
+  },
+  {
+    "variable": "sensorNoiseSigma",
+    "values": [],
+    "default": 0.0
+  },
+  {
+    "variable": "windowState",
+    "values": [
+      {
+        "value": 2,
+        "start_time": 0,
+        "end_time": 10756.0
+      },
+      {
+        "value": 0,
+        "start_time": 10756.0,
+        "end_time": 14400.0
+      }
+    ],
+    "default": 2
+  }
+]

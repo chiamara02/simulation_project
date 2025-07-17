@@ -119,22 +119,25 @@ def recovery_time(data: pd.DataFrame, output_var: str, target_var: float, distur
     if output_var not in data.columns :
         raise ValueError("Output or target variable not found in DataFrame.")
     
-    disturbance_times = data['time'][(data[disturbance_src] != data[disturbance_src].shift(1)) & data[disturbance_src] != 2]
+    disturbance_times = data['time'][ (data[disturbance_src] != data[disturbance_src].shift(1)) &
+    (data[disturbance_src].shift(1) == 2)]
+    
+    print(f"Disturbance times: {disturbance_times}") 
     recovery_times = []
     
     if disturbance_times.empty: return np.nan
 
     for i in range(len(disturbance_times)):
-        start_time = disturbance_times[i]
+        start_time = disturbance_times.iloc[i]
         if (i < len(disturbance_times)- 1):
-            end_time = disturbance_times[i+1]
+            end_time = disturbance_times.iloc[i+1]
             data_slice = data[(data['time'] >= start_time) & (data['time'] < end_time)]
         else:
             data_slice = data[data['time'] >= start_time]
     
 
         time_at_recovery = data_slice['time'][abs(target_var - data_slice[output_var]) <= 
-                                           steady_state_error(data, output_var, target_var, disturbance_src)]
+                                                0.015 * abs(target_var)]
         if time_at_recovery.empty: return np.nan
         time_at_recovery = time_at_recovery.iloc[0]
         recovery_duration = time_at_recovery - data_slice['time'].iloc[0]
