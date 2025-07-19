@@ -18,7 +18,7 @@ def generate_inputs(duration, step_size, seed=0):
     start_time = np.random.randint(0, 20)
     end_time = (start_time + 4) % 24  # ensures end_time is within the same day
     freq = 10  # frequency in minutes
-    temperatures = simulate_temperature(day, month, start_time, end_time, seed=seed)
+    temperatures = simulate_temperature(day, month, start_time, end_time)
     final_temperatures = interpolate_temperatures(temperatures, freq = freq)
     
     values = []

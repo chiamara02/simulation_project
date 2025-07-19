@@ -5,14 +5,11 @@ from meteostat import Hourly, Point
 import pandas as pd
 
 
-def simulate_temperature(day, month, start_time, end_time, seed=None):
+def simulate_temperature(day, month, start_time, end_time):
 
     """
     Simulate temperature data for a given day and time range.
     """
-
-    if seed is not None:
-        np.random.seed(seed)
     
     vancouver = Point(49.2497, -123.1193, 70)
     start = dt.datetime(2023, month, day, start_time)
@@ -20,7 +17,7 @@ def simulate_temperature(day, month, start_time, end_time, seed=None):
     
     data = Hourly(vancouver, start, end)
     data = data.fetch()
-    print(data.columns)
+    #print(data.columns)
     data = data[['temp']]
     
  
