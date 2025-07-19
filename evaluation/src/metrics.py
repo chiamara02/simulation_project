@@ -181,3 +181,49 @@ def compute_variance_confidence_interval(data, confidence=0.95):
     var_ci_upper = (df * var) / chi2_lower
     
     return var, var_ci_lower, var_ci_upper
+
+def bootstrap_mean_confidence_interval(data, num_samples=1000, confidence=0.95):
+    """Bootstrap method to compute confidence intervals"""
+    data = np.array(data)
+    data = data[~np.isnan(data)] 
+    if len(data) <= 1:
+        return np.nan, np.nan, np.nan
+    
+    n = len(data)
+    means = []
+    
+    for _ in range(num_samples):
+        sample = np.random.choice(data, size=n, replace=True)
+        means.append(np.mean(sample))
+    
+    mean = np.mean(means)
+    std_error = np.std(means)
+    
+    z = stats.norm.ppf(1 - (1 - confidence) / 2)
+    ci_lower = mean - z * std_error
+    ci_upper = mean + z * std_error
+    
+    return mean, ci_lower, ci_upper
+
+def bootstrap_variance_confidence_interval(data, num_samples=1000, confidence=0.95):
+    """Bootstrap method to compute variance confidence intervals"""
+    data = np.array(data)
+    data = data[~np.isnan(data)] 
+    if len(data) <= 1:
+        return np.nan, np.nan, np.nan
+    
+    n = len(data)
+    variances = []
+    
+    for _ in range(num_samples):
+        sample = np.random.choice(data, size=n, replace=True)
+        variances.append(np.var(sample, ddof=1))
+    
+    var = np.mean(variances)
+    std_error = np.std(variances)
+    
+    z = stats.norm.ppf(1 - (1 - confidence) / 2)
+    var_ci_lower = var - z * std_error
+    var_ci_upper = var + z * std_error
+    
+    return var, var_ci_lower, var_ci_upper
