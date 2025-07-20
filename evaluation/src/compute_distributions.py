@@ -17,7 +17,7 @@ def main():
 
     all_temperatures = pd.DataFrame()
 
-    for i in range(1,13):
+    for i in [1, 2, 3, 4, 10, 11, 12]: # months
         for j in range(1,29):
             for k in range (0,21):
 
