@@ -14,7 +14,7 @@ def generate_inputs(duration, step_size, seed=0):
 
     # outsideTemp 
     day = np.random.randint(1, 28)
-    month = np.random.randint(1, 12)
+    month = np.random.choice([1,2,3,4,10,11,12])  # only winter months
     start_time = np.random.randint(0, 20)
     end_time = (start_time + 4) % 24  # ensures end_time is within the same day
     freq = 10  # frequency in minutes
@@ -47,7 +47,7 @@ def generate_inputs(duration, step_size, seed=0):
     input_vars.append({
         "variable": "sensorNoiseSigma",
         "values": [],
-        "default": 0.0 
+        "default": 0.2
         
     })
 
@@ -60,7 +60,7 @@ def generate_inputs(duration, step_size, seed=0):
     while t < duration:
         # Sample next transition time
         next_t = t + step_size * int(np.random.exponential(7200))
-        next_state = simulate_window_markov(current_state)
+        next_state = 2 #simulate_window_markov(current_state)
 
         values.append({
             "value": current_state,

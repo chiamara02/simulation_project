@@ -23,6 +23,8 @@ class PIDController(BaseController):
         output = self.Kp * error + self.Ki * self.integral + self.Kd * derivative
         if output > self.max_output:  
             output = self.max_output
+        if output < 0:
+            output = 0.0
         self.prev_error = error
 
         return {self.control_output: output}
