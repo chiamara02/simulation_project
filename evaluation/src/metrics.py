@@ -10,9 +10,10 @@ def settling_time(data: pd.DataFrame, output_var: str, target_val: float, distur
     for i in range(len(signal)):
         within_band = np.abs(signal[i:] - target_val) < tolerance_band
         if np.all(within_band):
-            return time[i]
+            return time[i]  # Settling time found, return it
 
-    return np.nan  # No settling time found
+    return time[-1]  # No settling time found, return last time as penalty
+
 
 
 def steady_state_error(data: pd.DataFrame, output_var: str, target_var: float, disturbance_src: str) -> float:
@@ -22,7 +23,10 @@ def steady_state_error(data: pd.DataFrame, output_var: str, target_var: float, d
 
     settling_t = settling_time(data,output_var, target_var, disturbance_src)
     steady_data = data[data['time'] >= settling_t]
+    if steady_data.empty or len(steady_data) < 2:
+        return np.nan  # No data after settling time
     steady_state_error_value = np.mean(steady_data[output_var] - target_var)
+   
     return steady_state_error_value
 
 
@@ -42,11 +46,12 @@ def rise_time(data: pd.DataFrame, output_var: str, target_var: float, disturbanc
     if output_var not in data.columns :
         raise ValueError("Output or target variable not found in DataFrame.")
     
-    rise_time = np.nan
+    rise_time = data['time'].iloc[-1]  # Default to last time if no rise time found
     for row in data.itertuples():
         if getattr(row, output_var) >= 0.985 * target_var:
             rise_time = getattr(row, 'time')
             break
+    
     
     return rise_time
 
@@ -88,10 +93,9 @@ def variance_after_settling(data: pd.DataFrame, output_var: str, target_var: flo
         raise ValueError("Output or target variable not found in DataFrame.")
     
     settling_time_value = settling_time(data, output_var, target_var, disturbance_src)
-    if np.isnan(settling_time_value):
-        return np.nan
-    
     steady_data = data[data['time'] >= settling_time_value]
+    if steady_data.empty or len(steady_data) < 2:
+        return np.nan  # No data after settling time
     variance_value = np.var(steady_data[output_var])
 
     return variance_value
@@ -138,7 +142,9 @@ def recovery_time(data: pd.DataFrame, output_var: str, target_var: float, distur
 
         time_at_recovery = data_slice['time'][abs(target_var - data_slice[output_var]) <= 
                                                 0.015 * abs(target_var)]
-        if time_at_recovery.empty: return np.nan
+        if time_at_recovery.empty:  
+            recovery_times.append(data_slice['time'].iloc[-1] - data_slice['time'].iloc[0])
+            continue
         time_at_recovery = time_at_recovery.iloc[0]
         recovery_duration = time_at_recovery - data_slice['time'].iloc[0]
         recovery_times.append(recovery_duration)
