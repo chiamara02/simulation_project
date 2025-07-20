@@ -17,9 +17,9 @@
   result: have a 3*1 image with a controller for each plot
 
 ### 1.3 Explore Relationships via Pairplots
-- [ ] Combine key variables:
+- [x] Combine key variables:
   - output signal, actual temperature, outside temperature, noise (only noise scenario)
-- [ ] Generate **pairplot** for each scenario
+- [x] Generate **pairplot** for each scenario
   - use windowstate as hue to color the different points
   result: have 9 pairplots, one for each pair scenario/controller
 
@@ -28,20 +28,19 @@
 ## 2. Metrics & Variance Reduction
 
 ### 2.1 Estimate Distributions of Influencing Variables
-- [ ] Plot or fit probability distributions for:
-  - [ ] Outside temperature
-  - [ ] Window state (markov chain)
-  - [ ] Sensor noise (Gaussian)
-  result: have a distribution for each variable 
+- [x ] Plot or fit probability distributions for:
+  - [x] Outside temperature 
+  - [ ] Window state (markov chain) (no time)
+  - [ ] Sensor noise (Gaussian) (no time)
+  result: have a distribution for each variable, qq plot for temp distribution and original temp data, quantiles plot
 
 ### 2.2 Stratified Metrics Recalculation
-- [ ] Define bins or quantiles for stratification:
-  - [ ] Outside temperature (e.g., cold, moderate, hot)
-  - [ ] Window state (open, closed, semi-open)
-  - [ ] Noise level (low, high)
-- [ ] Recalculate metrics (metrics in metrics.py) for each stratum
-- [ ] Compare variance before and after stratification
-  result: have a file like aggregated_metrics_py but with a column indicating controller and a column indicating scenario(unique table)
+- [x] Define bins or quantiles for stratification:
+  - [x] Outside temperature (e.g., cold, moderate, hot)
+  - [ ] Window state (open, closed, semi-open) (we probably do not have time for this)
+- [x] Recalculate metrics (metrics in metrics.py) for each stratum
+- [x] Compare variance before and after stratification
+  result: have tables showing variance reduction and ci plot showing the reduction of ci for the mean
 
 ### 2.3 Discuss
 - [ ] Summarize insights from:
@@ -53,6 +52,7 @@
 ---
 
 ## 3. Correlation Analysis
+- [ ] plot heatmaps showing potential correlations between variables
 
 ### 3.1 Correlation: Outside Temp vs. Energy Consumption
 - [ ] For each scenario and controller:
@@ -61,11 +61,7 @@
 
 ### 3.2 Conditional Correlation: Window State
 - [ ] For each temperature stratum:
-  - [ ] Plot energy use vs. window state
-  - [ ] Compute correlation (Pearson or point-biserial)
+  - [ ] Plot energy use (output of controller) vs. window state
+  - [ ] Compute correlation (Pearson)
 
-### 3.3 Conditional Correlation: Noise
-- [ ] For each temperature stratum:
-  - [ ] Plot energy use vs. noise level
-  - [ ] Compute correlation coefficient
 
