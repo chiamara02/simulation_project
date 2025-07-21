@@ -211,25 +211,26 @@ def bootstrap_mean_confidence_interval(data, num_samples=1000, confidence=0.95):
     
     return mean, ci_lower, ci_upper
 
-def bootstrap_variance_confidence_interval(data, num_samples=1000, confidence=0.95):
-    """Bootstrap method to compute variance confidence intervals"""
+def bootstrap_mean_variance_ci(data, num_samples=1000, confidence=0.95):
+    """Bootstrap estimate of the variance of the sample mean and its CI"""
     data = np.array(data)
-    data = data[~np.isnan(data)] 
+    data = data[~np.isnan(data)]
     if len(data) <= 1:
         return np.nan, np.nan, np.nan
     
     n = len(data)
-    variances = []
+    boot_means = []
     
     for _ in range(num_samples):
         sample = np.random.choice(data, size=n, replace=True)
-        variances.append(np.var(sample, ddof=1))
+        boot_means.append(np.mean(sample))
     
-    var = np.mean(variances)
-    std_error = np.std(variances)
+    # Variance of the estimator (mean) across bootstraps
+    est_var = np.var(boot_means, ddof=1)
+    std_error = np.std(boot_means, ddof=1)
     
     z = stats.norm.ppf(1 - (1 - confidence) / 2)
-    var_ci_lower = var - z * std_error
-    var_ci_upper = var + z * std_error
+    ci_lower = np.mean(boot_means) - z * std_error
+    ci_upper = np.mean(boot_means) + z * std_error
     
-    return var, var_ci_lower, var_ci_upper
+    return est_var, ci_lower, ci_upper
