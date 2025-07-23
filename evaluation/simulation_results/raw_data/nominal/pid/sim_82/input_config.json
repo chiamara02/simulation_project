@@ -166,31 +166,6 @@
       {
         "value": 2,
         "start_time": 0,
-        "end_time": 1334.0
-      },
-      {
-        "value": 2,
-        "start_time": 1334.0,
-        "end_time": 2298.0
-      },
-      {
-        "value": 2,
-        "start_time": 2298.0,
-        "end_time": 3082.0
-      },
-      {
-        "value": 2,
-        "start_time": 3082.0,
-        "end_time": 3966.0
-      },
-      {
-        "value": 2,
-        "start_time": 3966.0,
-        "end_time": 8999.0
-      },
-      {
-        "value": 2,
-        "start_time": 8999.0,
         "end_time": 14400.0
       }
     ],

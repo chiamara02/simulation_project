@@ -166,41 +166,21 @@
       {
         "value": 2,
         "start_time": 0,
-        "end_time": 1162.0
+        "end_time": 4650.0
       },
       {
         "value": 2,
-        "start_time": 1162.0,
-        "end_time": 2412.0
+        "start_time": 4650.0,
+        "end_time": 9650.0
       },
       {
         "value": 2,
-        "start_time": 2412.0,
-        "end_time": 3308.0
+        "start_time": 9650.0,
+        "end_time": 13234.0
       },
       {
         "value": 2,
-        "start_time": 3308.0,
-        "end_time": 4656.0
-      },
-      {
-        "value": 2,
-        "start_time": 4656.0,
-        "end_time": 5781.0
-      },
-      {
-        "value": 2,
-        "start_time": 5781.0,
-        "end_time": 10642.0
-      },
-      {
-        "value": 2,
-        "start_time": 10642.0,
-        "end_time": 11909.0
-      },
-      {
-        "value": 2,
-        "start_time": 11909.0,
+        "start_time": 13234.0,
         "end_time": 14400.0
       }
     ],

@@ -3,147 +3,147 @@
     "variable": "outsideTemp",
     "values": [
       {
-        "value": 20.5,
+        "value": 6.1,
         "start_time": 0,
         "end_time": 600
       },
       {
-        "value": 20.547298583148997,
+        "value": 6.012465984205857,
         "start_time": 600,
         "end_time": 1200
       },
       {
-        "value": 20.571542532818047,
+        "value": 5.972386737824238,
         "start_time": 1200,
         "end_time": 1800
       },
       {
-        "value": 20.646856816212967,
+        "value": 5.865410837214837,
         "start_time": 1800,
         "end_time": 2400
       },
       {
-        "value": 20.647369524026196,
+        "value": 5.864034427972437,
         "start_time": 2400,
         "end_time": 3000
       },
       {
-        "value": 20.93455146352509,
+        "value": 5.707720053149167,
         "start_time": 3000,
         "end_time": 3600
       },
       {
-        "value": 23.2,
+        "value": 5.7,
         "start_time": 3600,
         "end_time": 4200
       },
       {
-        "value": 23.2,
+        "value": 5.7,
         "start_time": 4200,
         "end_time": 4800
       },
       {
-        "value": 23.140217708059364,
+        "value": 5.601037580236199,
         "start_time": 4800,
         "end_time": 5400
       },
       {
-        "value": 23.01870082795014,
+        "value": 5.456852389522967,
         "start_time": 5400,
         "end_time": 6000
       },
       {
-        "value": 23.00648584918331,
+        "value": 5.456825760383135,
         "start_time": 6000,
         "end_time": 6600
       },
       {
-        "value": 22.915098934512724,
+        "value": 5.357652758962387,
         "start_time": 6600,
         "end_time": 7200
       },
       {
-        "value": 22.911178017029847,
+        "value": 5.341270135265144,
         "start_time": 7200,
         "end_time": 7800
       },
       {
-        "value": 22.9,
+        "value": 5.3,
         "start_time": 7800,
         "end_time": 8400
       },
       {
-        "value": 22.9,
+        "value": 5.3,
         "start_time": 8400,
         "end_time": 9000
       },
       {
-        "value": 22.921497594841572,
+        "value": 5.21141748051302,
         "start_time": 9000,
         "end_time": 9600
       },
       {
-        "value": 22.928822802301966,
+        "value": 5.164587128019596,
         "start_time": 9600,
         "end_time": 10200
       },
       {
-        "value": 22.932364436916014,
+        "value": 5.095624400937746,
         "start_time": 10200,
         "end_time": 10800
       },
       {
-        "value": 23.06594757078319,
+        "value": 5.092128424769463,
         "start_time": 10800,
         "end_time": 11400
       },
       {
-        "value": 23.097814099584806,
+        "value": 5.062246586859747,
         "start_time": 11400,
         "end_time": 12000
       },
       {
-        "value": 23.9,
+        "value": 5.0,
         "start_time": 12000,
         "end_time": 12600
       },
       {
-        "value": 23.9,
+        "value": 5.0,
         "start_time": 12600,
         "end_time": 13200
       },
       {
-        "value": 23.866240474994996,
+        "value": 4.961948772769797,
         "start_time": 13200,
         "end_time": 13800
       },
       {
-        "value": 23.807713647194255,
+        "value": 4.90271715846254,
         "start_time": 13800,
         "end_time": 14400
       },
       {
-        "value": 23.79622165311528,
+        "value": 4.838091748451875,
         "start_time": 14400,
         "end_time": 15000
       },
       {
-        "value": 23.48148000096088,
+        "value": 4.818096737369584,
         "start_time": 15000,
         "end_time": 15600
       },
       {
-        "value": 23.36665872953625,
+        "value": 4.807846279996857,
         "start_time": 15600,
         "end_time": 16200
       },
       {
-        "value": 22.2,
+        "value": 4.8,
         "start_time": 16200,
         "end_time": 16800
       },
       {
-        "value": 22.2,
+        "value": 4.8,
         "start_time": 16800,
         "end_time": 17400
       }
@@ -166,41 +166,16 @@
       {
         "value": 2,
         "start_time": 0,
-        "end_time": 420.0
+        "end_time": 688.0
       },
       {
         "value": 2,
-        "start_time": 420.0,
-        "end_time": 5627.0
+        "start_time": 688.0,
+        "end_time": 9253.0
       },
       {
         "value": 2,
-        "start_time": 5627.0,
-        "end_time": 5764.0
-      },
-      {
-        "value": 2,
-        "start_time": 5764.0,
-        "end_time": 7391.0
-      },
-      {
-        "value": 2,
-        "start_time": 7391.0,
-        "end_time": 7447.0
-      },
-      {
-        "value": 2,
-        "start_time": 7447.0,
-        "end_time": 9416.0
-      },
-      {
-        "value": 2,
-        "start_time": 9416.0,
-        "end_time": 11241.0
-      },
-      {
-        "value": 2,
-        "start_time": 11241.0,
+        "start_time": 9253.0,
         "end_time": 14400.0
       }
     ],
