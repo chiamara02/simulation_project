@@ -60,7 +60,7 @@ def generate_inputs(duration, step_size, seed=0):
     while t < duration:
         # Sample next transition time
         next_t = t + step_size * int(np.random.exponential(7200))
-        next_state = 2 #simulate_window_markov(current_state)
+        next_state = simulate_window_markov(current_state)
 
         values.append({
             "value": current_state,
@@ -81,6 +81,9 @@ def generate_inputs(duration, step_size, seed=0):
     return input_vars
 
 def simulate_window_markov(current_state):
+    """ 
+    Simulate the next state of the window using a Markov process
+    """
 
     states = [0, 1, 2]  # 0=open, 1=vasistas, 2=closed
     

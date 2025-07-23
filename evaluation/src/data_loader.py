@@ -46,9 +46,8 @@ def clean_and_merge_data(dataframes, scenario_name, columns_to_keep):
 
     merged_df = pd.concat(cleaned_frames, ignore_index=True)
 
-    # Remove duplicate rows
+    
     merged_df.drop_duplicates(inplace=True)
-    # Reset index
     merged_df.reset_index(drop=True, inplace=True)
     os.makedirs("simulation_results/clean_data", exist_ok=True)
     merged_df.to_csv(f"simulation_results/clean_data/{scenario_name}.csv", index=False)

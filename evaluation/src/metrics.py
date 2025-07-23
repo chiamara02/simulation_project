@@ -126,7 +126,7 @@ def recovery_time(data: pd.DataFrame, output_var: str, target_var: float, distur
     disturbance_times = data['time'][ (data[disturbance_src] != data[disturbance_src].shift(1)) &
     (data[disturbance_src].shift(1) == 2)]
     
-    print(f"Disturbance times: {disturbance_times}") 
+    #print(f"Disturbance times: {disturbance_times}") 
     recovery_times = []
     
     if disturbance_times.empty: return np.nan
@@ -152,85 +152,3 @@ def recovery_time(data: pd.DataFrame, output_var: str, target_var: float, distur
 
     return np.mean(recovery_times)
 
-
-def compute_confidence_interval(data, confidence=0.95):
-    data = np.array(data)
-    # Remove NaN values
-    data = data[~np.isnan(data)]  
-    if len(data) == 0:
-        return np.nan, np.nan, np.nan
-    
-    n = len(data)
-    mean = np.mean(data)
-    std = np.std(data, ddof=1)
-    z = stats.norm.ppf(1 - (1 - confidence) / 2)
-    ci_lower = mean - z * (std / np.sqrt(n))
-    ci_upper = mean + z * (std / np.sqrt(n))
-    return mean, ci_lower, ci_upper
-
-def compute_variance_confidence_interval(data, confidence=0.95):
-    """Using chi-squared distribution"""
-    data = np.array(data)
-    data = data[~np.isnan(data)] 
-    if len(data) <= 1:
-        return np.nan, np.nan, np.nan
-    
-    n = len(data)
-    var = np.var(data, ddof=1)
-    df = n - 1
-    
-    # Chi-squared critical values
-    chi2_lower = stats.chi2.ppf((1 - confidence) / 2, df)
-    chi2_upper = stats.chi2.ppf(1 - (1 - confidence) / 2, df)
-    
-    var_ci_lower = (df * var) / chi2_upper
-    var_ci_upper = (df * var) / chi2_lower
-    
-    return var, var_ci_lower, var_ci_upper
-
-def bootstrap_mean_confidence_interval(data, num_samples=1000, confidence=0.95):
-    """Bootstrap method to compute confidence intervals"""
-    data = np.array(data)
-    data = data[~np.isnan(data)] 
-    if len(data) <= 1:
-        return np.nan, np.nan, np.nan
-    
-    n = len(data)
-    means = []
-    
-    for _ in range(num_samples):
-        sample = np.random.choice(data, size=n, replace=True)
-        means.append(np.mean(sample))
-    
-    mean = np.mean(means)
-    std_error = np.std(means)
-    
-    z = stats.norm.ppf(1 - (1 - confidence) / 2)
-    ci_lower = mean - z * std_error
-    ci_upper = mean + z * std_error
-    
-    return mean, ci_lower, ci_upper
-
-def bootstrap_mean_variance_ci(data, num_samples=1000, confidence=0.95):
-    """Bootstrap estimate of the variance of the sample mean and its CI"""
-    data = np.array(data)
-    data = data[~np.isnan(data)]
-    if len(data) <= 1:
-        return np.nan, np.nan, np.nan
-    
-    n = len(data)
-    boot_means = []
-    
-    for _ in range(num_samples):
-        sample = np.random.choice(data, size=n, replace=True)
-        boot_means.append(np.mean(sample))
-    
-    # Variance of the estimator (mean) across bootstraps
-    est_var = np.var(boot_means, ddof=1)
-    std_error = np.std(boot_means, ddof=1)
-    
-    z = stats.norm.ppf(1 - (1 - confidence) / 2)
-    ci_lower = np.mean(boot_means) - z * std_error
-    ci_upper = np.mean(boot_means) + z * std_error
-    
-    return est_var, ci_lower, ci_upper

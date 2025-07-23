@@ -28,7 +28,7 @@ def simulate_temperature(day, month, start_time, end_time):
     return data
 
 
-def interpolate_temperatures(df, col="temp", freq=10, noise_scale=0.1): # TODO repeat sampling to obtain exactly n values in range
+def interpolate_temperatures(df, col="temp", freq=10, noise_scale=0.1): 
     
     """ 
     Enrich temperature data generating values at a specified frequency 
